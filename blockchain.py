@@ -20,8 +20,8 @@ class Blockchain(object):
         
         self.nodes = set()
 
-        # Create new genesis block
-        self.new_block(previous_hash=1, proof=100)
+        # Create the genesis block
+        self.new_block(previous_hash='1', proof=100)
 
     def register_node(self, address):
         """
@@ -86,6 +86,12 @@ class Blockchain(object):
                         max_length = length
                         new_chain = chain
 
+        # Replace our chain if we discovered a new, valid chain longer than ours
+        if new_chain:
+            self.chain = new_chain
+            return True
+
+        return False
 
     def new_block(self, proof, previous_hash=None):
         """
